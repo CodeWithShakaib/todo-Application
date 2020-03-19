@@ -1,2 +1,2 @@
 Hello,
-This is a todo-application written in python Flask's backend.
+This is a todo-application which is a web application written in HTML,CSS,javascript's ES6(Frontend) and python's Flask(Backend).
