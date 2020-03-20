@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="shortcut icon" href="static/webpage_icon.png">
+    <title>Planner | Todo Application</title>
+    <style>
+        #main {
+            width: 500px;
+            
+            margin: auto;
+            
+            background-color: #1e1e1e;
+            
+        }
+        #body {
+    margin:0;
+    padding:0;
+    background-color: #333333;
+    
+}
+    </style>
+
+
+</head>
+<div class="modal" tabindex="-1"  role="dialog" id="add">
+    <div class="modal-dialog"   role="document">
+      <div class="modal-content "style="background-color:#021b2c; color: white;">
+        <div class="modal-header" style="background-color: white;">
+          <b class="modal-title" style="color: black;">ADD a Todo</b>
+          <button type="button" class="close" data-dismiss="modal" style="color: black" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        
+        </div>
+        <div class="modal-body">
+            <form action="/add" method="post">
+            
+                <input type="text" class="form-control m-2" name="title" placeholder="Title" aria-label="Username" aria-describedby="addon-wrapping" style="color: white; background-color:#021b2c ;  font-weight: bold; font-size: 14px;">
+                <textarea class="form-control ml-2 mr-2 mb-2" name="desc" aria-label="With textarea" placeholder="Description" style="color: white; background-color:#021b2c ;  font-size: 14px;" rows="5"></textarea>
+                 <b class="m-2" style="font-size: 14px;">TO</b>
+                 <div class="form-check-inline">
+                 <input type="radio" value="projects" class="form-check-input" name="radio" ><text style="font-weight: bold; font-size: 14px;" class="mr-3">PROJECTS</text>
+                 <input type="radio" value="commitments" class="form-check-input" name="radio" ><text style="font-weight: bold; font-size: 14px;" class="mr-3">COMMITMENTS</text>
+                 <input type="radio" value="tasks" class="form-check-input" name="radio" ><text style="font-weight: bold; font-size: 14px;" class="mr-3">TASKS</text>
+                 </div>
+                 <br>
+                  <button type="submit" class="btn ml-2 mr-2 mt-3" style="color: white; width:100%;background-color: #019031; font-size: 15px;" onclick="redirect()"><b>ADD</b></button>
+        </form>
+        </div>
+        
+   
+      </div>
+    </div>
+  </div>
+
+<body id="body">
+ <section class="container text-center" style="background-color: #333333; color: white;">   
+    <h2 class="m-3">Planner | Todo Application</h2>
+
+    <section id="main">
+        <div style="background-color: #007acc; width: 100%; height: 35px;">
+            <div class="text-left">
+                <i class=""><img src="static/planner_icon.png" style="height: 30px;" class="ml-1" alt=""
+                        srcset=""></i>
+                <b>Todo List</b>
+                <button type="button" data-toggle="modal" data-target="#add" style="background-color: #007acc; border: none;">
+                <i class=""><img src="static/add.png" style="height: 20px; MARGIN-TOP: 5px; margin-left: 347px" class="" alt="" srcset=""></i>
+                </button>
+            </div>
+            
+        </div>
+        <div class="btn-group mt-2" role="group" aria-label="Basic example">
+            <button type="button" id="allButton" onclick="allclick()"  style="background-color: crimson; font-size: 13px;"
+                class="btn btn-secondary"><b>ALL</b></button>
+            <button type="button" onclick="projectsclick()" id="projectsButton" class="btn btn-secondary"
+                style="background-color: #333333; font-size: 13px;"><b>PROJECTS</b></button>
+            <button type="button"  onclick="commitmentsclick()" id="commitmentsButton"  class="btn btn-secondary"
+                style="background-color: #333333; font-size: 13px;"><b>COMMITMENTS</b></button>
+            <button type="button"  onclick="tasksclick()" id="tasksButton" class="btn btn-secondary"
+                style="background-color: #333333; font-size: 13px;"><b>TASKS</b></button>
+        </div>
+
+        
+        <div id="all" style="display: block;" class="collapse">
+            <form action="/delete" method="post">
+                <button type="submit"  style="background-color: #1e1e1e;  border: none;">
+                <i class=""><img src="static/delete.png" style="border:none; height: 20px; height: 20px; MARGIN-LEFT: 395px; MARGIN-TOP: -147px; MARGIN-RIGHT: 5px;" alt="" srcset=""></i>
+                </button>
+        {%for row in data%}
+        <div id={{row[0]}} style="background-color:#333333 ; border-radius: 0%;" class="m-3 text-left">
+            <div style="background-color: #E74292">
+            <input class="mt-2 mb-2 ml-2" type="checkbox" value={{row[0]}} name="checkbox" aria-label="Checkbox for following text input">
+            <b class="mt-2 mb-2">{{row[1]}}</b>
+            </div>
+            <p class="m-2">{{row[2]}}</p>
+            <i class=""><img src="static/date.png" style="height: 20px" class="ml-2" alt="" srcset=""></i>
+            <b class="mb-5" style="font-size:14px">{{row[3]}}</b>    
+        <p style="color: #333333;">For margin</p>
+        </div>
+        {%endfor%}
+    </form>
+        </div>
+
+        <div id="projects" style="display: none;" class="collapse">
+            <form action="/delete" method="post">
+                <button type="submit"  style="background-color: #1e1e1e;  border: none;">
+                <i class=""><img src="static/delete.png" style="border:none; height: 20px; height: 20px; MARGIN-LEFT: 395px; MARGIN-TOP: -147px; MARGIN-RIGHT: 5px;" alt="" srcset=""></i>
+                </button>
+            {%for row in projects_data%}
+            <div id={{row[0]}} style="background-color:#333333 ; border-radius: 0%;" class="m-3 text-left">
+                <div style="background-color: #E74292">
+                <input class="mt-2 mb-2 ml-2" type="checkbox" value={{row[0]}} name="checkbox" aria-label="Checkbox for following text input">
+                <b class="mt-2 mb-2">{{row[1]}}</b>
+                </div>
+                <p class="m-2">{{row[2]}}</p>
+                <i class=""><img src="static/date.png" style="height: 20px" class="ml-2" alt="" srcset=""></i>
+                <b class="mb-5" style="font-size:14px">{{row[3]}}</b>    
+            <p style="color: #333333;">For margin</p>
+            </div>
+            {%endfor%}
+            </form>
+            </div>
+
+            <div id="commitments" style="display: none;" class="collapse">
+                <form action="/delete" method="post">
+                    <button type="submit"  style="background-color: #1e1e1e;  border: none;">
+                    <i class=""><img src="static/delete.png" style="border:none; height: 20px; height: 20px; MARGIN-LEFT: 395px; MARGIN-TOP: -147px; MARGIN-RIGHT: 5px;" alt="" srcset=""></i>
+                    </button>
+                {%for row in commitments_data%}
+                <div id={{row[0]}} style="background-color:#333333 ; border-radius: 0%;" class="m-3 text-left">
+                    <div style="background-color: #E74292">
+                    <input class="mt-2 mb-2 ml-2" type="checkbox" value={{row[0]}} name="checkbox" aria-label="Checkbox for following text input">
+                    <b class="mt-2 mb-2">{{row[1]}}</b>
+                    </div>
+                    <p class="m-2">{{row[2]}}</p>
+                    <i class=""><img src="static/date.png" style="height: 20px" class="ml-2" alt="" srcset=""></i>
+                    <b class="mb-5" style="font-size:14px">{{row[3]}}</b>    
+                <p style="color: #333333;">For margin</p>
+                </div>
+                {%endfor%}
+                </form>
+                </div>
+                
+
+                <div id="tasks" style="display: none;" class="collapse">
+                    <form action="/delete" method="post">
+                        <button type="submit"  style="background-color: #1e1e1e;  border: none;">
+                        <i class=""><img src="static/delete.png" style="border:none; height: 20px; height: 20px; MARGIN-LEFT: 395px; MARGIN-TOP: -147px; MARGIN-RIGHT: 5px;" alt="" srcset=""></i>
+                        </button>
+                    {%for row in tasks_data%}
+                    <div id={{row[0]}} style="background-color:#333333 ; border-radius: 0%;" class="m-3 text-left">
+                        <div style="background-color: #E74292">
+                        <input class="mt-2 mb-2 ml-2" type="checkbox" value={{row[0]}} name="checkbox" aria-label="Checkbox for following text input">
+                        <b class="mt-2 mb-2">{{row[1]}}</b>
+                        </div>
+                        <p class="m-2">{{row[2]}}</p>
+                        <i class=""><img src="static/date.png" style="height: 20px" class="ml-2" alt="" srcset=""></i>
+                        <b class="mb-5" style="font-size:14px">{{row[3]}}</b>    
+                    <p style="color: #333333;">For margin</p>
+                    </div>
+                    {%endfor%}
+                    </form>
+                    </div>
+
+        <br>
+    </section>
+</section>
+
+    
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    <script>
+        // document.getElementById("main").style.height = String(screen.height - 230) + 'px';
+        
+        
+        
+        function allclick() {
+            document.getElementById("allButton").style.backgroundColor = "crimson";
+            document.getElementById("tasksButton").style.backgroundColor = "#333333";
+            document.getElementById("projectsButton").style.backgroundColor = "#333333";
+            document.getElementById("commitmentsButton").style.backgroundColor = "#333333";
+            document.getElementById("all").style.display = "block";
+            document.getElementById("projects").style.display = "none";
+            document.getElementById("commitments").style.display = "none";
+            document.getElementById("tasks").style.display = "none";
+            }
+
+            function projectsclick() {
+            document.getElementById("allButton").style.backgroundColor = "#333333";
+            document.getElementById("tasksButton").style.backgroundColor = "#333333";
+            document.getElementById("projectsButton").style.backgroundColor = "crimson";
+            document.getElementById("commitmentsButton").style.backgroundColor = "#333333";
+            document.getElementById("all").style.display = "none";
+            document.getElementById("projects").style.display = "block";
+            document.getElementById("commitments").style.display = "none";
+            document.getElementById("tasks").style.display = "none";
+            }
+
+            function tasksclick() {
+            document.getElementById("allButton").style.backgroundColor = "#333333";
+            document.getElementById("tasksButton").style.backgroundColor = "crimson";
+            document.getElementById("projectsButton").style.backgroundColor = "#333333";
+            document.getElementById("commitmentsButton").style.backgroundColor = "#333333";
+            document.getElementById("all").style.display = "none";
+            document.getElementById("projects").style.display = "none";
+            document.getElementById("commitments").style.display = "none";
+            document.getElementById("tasks").style.display = "block";
+            }
+
+            function commitmentsclick() {
+            document.getElementById("allButton").style.backgroundColor = "#333333";
+            document.getElementById("tasksButton").style.backgroundColor = "#333333";
+            document.getElementById("projectsButton").style.backgroundColor = "#333333";
+            document.getElementById("commitmentsButton").style.backgroundColor = "crimson";
+            document.getElementById("all").style.display = "none";
+            document.getElementById("projects").style.display = "none";
+            document.getElementById("commitments").style.display = "block";
+            document.getElementById("tasks").style.display = "none";
+            }
+    </script>
+</body>
+
+
+
+</html>
