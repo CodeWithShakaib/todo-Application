@@ -4,8 +4,5 @@ You can use this to manage your day to day tasks.
 
 Hope you like it.
 ------------------------------------------------
-I like to do your project,contact me.
-Name : Shakaib Hassan 
-Email : shakaibhassan16@gmail.com
-Whatapp : 03356311182                    
+                 
 ------------------------------------------------
